@@ -59,7 +59,8 @@ openssl dgst -sha256 -sign private.key -out plain.txt.sha256.sig plain.txt.sha25
 <br>
 Find receiving machine's Ip:
 
-![image](https://github.com/user-attachments/assets/511095a2-45a9-42ea-ae13-6eb9cc28f302)
+![image](https://github.com/user-attachments/assets/e8ed3690-e921-4eac-a723-908786599035)
+
 
 <br>
 Sending File:
@@ -109,25 +110,60 @@ openssl rsa -pubout -in private.key -out public.key
 ```
 <br>
 
-3. Transfer the public.key to Computer A (Sender):
+3. Transfer the public.key to Computer A (Sender): <br>
+
+```
+scp public.key nhat317@172.29.218.4:/home/nhat317
+```
+<br>
 
 Step 2: Encrypt the Symmetric Key on Computer A (Sender)
-1. Generate a random symmetric key for AES encryption:
-2. Encrypt the symmetric key using Computer B's public.key:
+1. Generate a random symmetric key for AES encryption: <br>
 
+```
+openssl rand -base64 32 > symmetric.key
+```
+
+<br>
+2. Encrypt the symmetric key using Computer B's public.key: <br>
+
+```
+openssl rsautl -encrypt -inkey public.key -pubin -in symmetric.key -out symmetric.key.enc
+```
 Step 3: Encrypt the File on Computer A (Sender)
-1. Create the file to be encrypted (e.g., message.txt):
-2. Encrypt the file using the symmetric key:
-3. Transfer the encrypted file (message.txt.enc) and the encrypted symmetric key (symmetric.key.enc) to Computer B:
+1. Create the file to be encrypted (e.g., message.txt): <br>
 
+```
+echo "This is a secure file transfer example!" > message.txt
+```
+2. Encrypt the file using the symmetric key: <br>
+```
+openssl enc -aes-256-cbc -salt -in message.txt -out message.txt.enc -pass file:./symmetric.key
+```
+3. Transfer the encrypted file (message.txt.enc) and the encrypted symmetric key (symmetric.key.enc) to Computer B: <br>
+```
+scp message.txt.enc symmetric.key.enc nhat317@172.29.218.4:/home/nhat317
+```
+<br>
 Step 4: Decrypt the Symmetric Key on Computer B (Receiver)
-1. Decrypt the symmetric key using the private RSA key
+1. Decrypt the symmetric key using the private RSA key <br>
+
+```
+openssl rsautl -decrypt -inkey private.key -in symmetric.key.enc -out symmetric.key
+```
 
 Step 5: Decrypt the File on Computer B (Receiver)
-1. Decrypt the file using the symmetric key:
-2. Verify the content of the decrypted file:
-   
+1. Decrypt the file using the symmetric key: <br>
 
+```
+openssl enc -d -aes-256-cbc -in message.txt.enc -out message.txt -pass file:./symmetric.key
+```
+
+2. Verify the content of the decrypted file: <br>
+```
+cat message.txt
+```
+<br>
 
 # Task 3: Firewall configuration
 
@@ -135,7 +171,46 @@ Step 5: Decrypt the File on Computer B (Receiver)
 From VMs of previous tasks, install iptables and configure one of the 2 VMs as a web and ssh server. Demonstrate your ability to block/unblock http, icmp, ssh requests from the other host.
 
 **Answer 1**:
+We have 2 machines:
+![image](https://github.com/user-attachments/assets/c12eff10-e8b5-4b23-9867-ae53c5642cd1)
+
+![image](https://github.com/user-attachments/assets/ea7f5a3a-f88a-4062-a4f5-1ec76f474b7d)
+
+
+Configure iptables Rules on Machine 10.0.2.15
+1. Allow All Traffic Initially: <br>
+```
+sudo iptables -F           
+sudo iptables -P INPUT ACCEPT
+sudo iptables -P FORWARD ACCEPT
+sudo iptables -P OUTPUT ACCEPT
 
 ```
+2. Block HTTP Traffic (Port 80): <br>
+```
+sudo iptables -A INPUT -p tcp --dport 80 -s 172.29.218.4 -j DROP
+```
+3. Unblock HTTP Traffic: <br>
+```
+sudo iptables -D INPUT -p tcp --dport 80 -s 172.29.218.4 -j DROP
 
 ```
+4. Block ICMP Traffic (Ping): <br>
+```
+sudo iptables -A INPUT -p icmp -s 172.29.218.4 -j DROP
+
+```
+5. Unblock ICMP Traffic: <br>
+```
+sudo iptables -D INPUT -p icmp -s 172.29.218.4 -j DROP
+```
+6. Block SSH Traffic (Port 22): <br>
+```
+sudo iptables -A INPUT -p tcp --dport 22 -s 172.29.218.4 -j DROP
+```
+7. Unblock SSH Traffic: <br>
+```
+sudo iptables -A INPUT -p tcp --dport 22 -s 172.29.218.4 -j DROP
+```
+
+
