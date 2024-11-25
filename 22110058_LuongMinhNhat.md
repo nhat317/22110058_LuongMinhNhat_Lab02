@@ -51,7 +51,8 @@ openssl dgst -sha256 -sign private.key -out plain.txt.sha256.sig plain.txt.sha25
 ```
 
 <br>
-![image](https://github.com/user-attachments/assets/4e2234ec-ba8c-493d-ac48-177d4e681293)
+![image](https://github.com/user-attachments/assets/f9f6b29f-47d2-43d0-9667-c82ef4e40d31)
+)
 
 3. Send the files to the receiver: Using scp
 
