@@ -17,13 +17,41 @@ echo "Sir, when will we meet again?" > plain.txt
 <br>
 Verify current folder for newly created file
 <br>
-On the Sending Side
+
+**On the Sending Side**
+
 <br>
 1. Create a cryptographic hash (checksum) of the file for integrity: Generate a SHA-256 checksum of the plaintext file (e.g., file.txt): <br>
 
 ```sh
 openssl dgst -sha256 plain.txt > plain.txt.sha256
 ```
+
+<br>
+2. Sign the checksum for authenticity: Generate a private key (if you don't already have one):<br>
+
+<br>
+
+```sh
+openssl genpkey -algorithm RSA -out private.key -pkeyopt rsa_keygen_bits:2048
+```
+
+Extract the corresponding public key to share with the receiver: <br>
+
+```sh
+ openssl rsa -pubout -in private.key -out public.key
+```
+
+<br>
+Sign the checksum using the private key:
+<br>
+
+```sh
+openssl dgst -sha256 -sign private.key -out plain.txt.sha256.sig plain.txt.sha256
+```
+
+<br>
+3. Send the files to the receiver: Using scp
 
 <br>
 
