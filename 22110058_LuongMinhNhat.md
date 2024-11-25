@@ -67,8 +67,12 @@ Sending File:
 
 <br>
 
-**On the Receiving Side**
+**On the Receiving Side** 
+
+<br>
+
 Verify the authenticity of the checksum: Use the sender's public key to verify the signature of the checksum
+
 <br>
 
 ```sh
