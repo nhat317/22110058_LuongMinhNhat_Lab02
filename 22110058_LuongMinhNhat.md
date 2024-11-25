@@ -96,6 +96,39 @@ All steps are made manually with openssl at the terminal of each computer.
 
 **Answer 1**:
 
+Step 1: Generate RSA Keys on Computer B (Receiver)
+1. Generate a 2048-bit RSA private key: <br>
+```
+openssl genpkey -algorithm RSA -out private.key -pkeyopt rsa_keygen_bits:2048
+```
+<br> 
+2. Extract the corresponding public key: <br>
+
+```
+openssl rsa -pubout -in private.key -out public.key
+```
+<br>
+
+3. Transfer the public.key to Computer A (Sender):
+
+Step 2: Encrypt the Symmetric Key on Computer A (Sender)
+1. Generate a random symmetric key for AES encryption:
+2. Encrypt the symmetric key using Computer B's public.key:
+
+Step 3: Encrypt the File on Computer A (Sender)
+1. Create the file to be encrypted (e.g., message.txt):
+2. Encrypt the file using the symmetric key:
+3. Transfer the encrypted file (message.txt.enc) and the encrypted symmetric key (symmetric.key.enc) to Computer B:
+
+Step 4: Decrypt the Symmetric Key on Computer B (Receiver)
+1. Decrypt the symmetric key using the private RSA key
+
+Step 5: Decrypt the File on Computer B (Receiver)
+1. Decrypt the file using the symmetric key:
+2. Verify the content of the decrypted file:
+   
+
+
 # Task 3: Firewall configuration
 
 **Question 1**:
