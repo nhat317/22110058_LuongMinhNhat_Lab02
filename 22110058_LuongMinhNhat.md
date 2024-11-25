@@ -59,7 +59,7 @@ openssl dgst -sha256 -sign private.key -out plain.txt.sha256.sig plain.txt.sha25
 <br>
 Find receiving machine's Ip:
 
-![image](https://github.com/user-attachments/assets/e8ed3690-e921-4eac-a723-908786599035)
+![image](https://github.com/user-attachments/assets/c12eff10-e8b5-4b23-9867-ae53c5642cd1)
 
 
 <br>
