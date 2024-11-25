@@ -54,14 +54,15 @@ openssl dgst -sha256 -sign private.key -out plain.txt.sha256.sig plain.txt.sha25
 
 ![image](https://github.com/user-attachments/assets/da176379-3e7e-4f98-8589-01d01021c7e1)
 
+<br>
 
 3. Send the files to the receiver: Using scp
 <br>
 Find receiving machine's Ip:
-
 ![image](https://github.com/user-attachments/assets/511095a2-45a9-42ea-ae13-6eb9cc28f302)
-
 <br>
+Sending File:
+
 
 # Task 2: Transfering encrypted file and decrypt it with hybrid encryption.
 
