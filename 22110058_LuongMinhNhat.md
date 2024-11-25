@@ -65,6 +65,21 @@ Find receiving machine's Ip:
 <br>
 Sending File:
 
+<br>
+
+**On the Receiving Side**
+Verify the authenticity of the checksum: Use the sender's public key to verify the signature of the checksum
+<br>
+
+```sh
+openssl dgst -sha256 -verify public.key -signature plain.txt.sha256.sig plain.txt.sha256
+```
+If the output is:
+<br>
+
+```Verified OK```
+<br>
+This means the checksum file is authentic and hasn't been tampered with. If it doesn't verify, the process should stop
 
 # Task 2: Transfering encrypted file and decrypt it with hybrid encryption.
 
