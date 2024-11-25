@@ -56,6 +56,10 @@ openssl dgst -sha256 -sign private.key -out plain.txt.sha256.sig plain.txt.sha25
 
 
 3. Send the files to the receiver: Using scp
+<br>
+Find receiving machine's Ip:
+
+![image](https://github.com/user-attachments/assets/511095a2-45a9-42ea-ae13-6eb9cc28f302)
 
 <br>
 
